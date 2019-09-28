@@ -19,22 +19,22 @@ Import and create a unique data generator::
 
 Generate data by calling generator methods as with Faker::
 
-    >>> ufake.pybool()
+    >>> ufake.boolean()
     True
 
 Each call to a method will generate data different to previous calls. For the
-second call to ``pybool()``, uFaker guarantees that a new unique value will be
+second call to ``boolean()``, uFaker guarantees that a new unique value will be
 generated so we know this will be ``False``::
 
-    >>> ufake.pybool()
+    >>> ufake.boolean()
     False
 
 When a method can no longer generate unique data, it raises an exception::
 
-    >>> ufake.pybool()
+    >>> ufake.boolean()
     Traceback (most recent call last):
     ...
-    GeneratorExhaustedError: pybool has run out of unique values. Tried: [True, False]
+    GeneratorExhaustedError: boolean has run out of unique values. Tried: [True, False]
 
 Ban lists
 ---------
@@ -47,13 +47,13 @@ for this or subsequent calls::
 
     >>> ufake = uFaker()
 
-    >>> ufake.pybool(ban=[True])
+    >>> ufake.boolean(ban=[True])
     False
 
-    >>> ufake.pybool()
+    >>> ufake.boolean()
     Traceback (most recent call last):
     ...
-    GeneratorExhaustedError: pybool has run out of unique values. Tried: [True, False]
+    GeneratorExhaustedError: boolean has run out of unique values. Tried: [True, False]
 
 This can be helpful when writing tests that assert behaviour against a set of
 values excluding some particular ones. For example, if you want to prove that
@@ -72,3 +72,30 @@ can use the ``user_name()`` generator and ban the name ``"admin"``::
         result = account.disable()
 
         assert result is True
+
+The ban list is additive, so calling a generator method multiple times with
+additional values adds them to the ban list.
+
+Say we had a ``dice()`` generator method that generates dice rolls from 1 to 6
+inclusive::
+
+    >>> from ufaker import uFaker
+
+    >>> ufake = uFaker()
+
+    >>> ufake.dice(ban=[1])
+    6
+
+So at this stage both 1 and 6 are banned. Now we call it again adding bans for
+2, 3 and 4. The only unique value that can be found is 5 which is returned::
+
+    >>> ufake.dice(ban=[2, 3, 4])
+    5
+
+Calling ``dice()`` once more raises an exception because there are no more
+unique values available::
+
+    >>> ufake.dice()
+    Traceback (most recent call last):
+    ...
+    GeneratorExhaustedError: dice has run out of unique values. Tried: [1, 6, 2, 3, 4, 5]
