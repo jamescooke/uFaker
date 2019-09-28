@@ -8,6 +8,11 @@ particular attribute like ``'username'``.
 Getting started
 ---------------
 
+    **WARNING** Nothing below works as yet, this is just a draft of the API
+    that I'm planning for this tool. Please give feedback by creating an Issue
+    or adding to this discussion which includes a use-case in the context of
+    username generation: https://github.com/jamescooke/factory_djoy/issues/20
+
 Install with ``pip``::
 
     $ pip install uFaker
