@@ -6,7 +6,7 @@ lint:
 	@echo "=== flake8 ==="
 	flake8 $(lint_files)
 	@echo "=== mypy ==="
-	mypy $(lint_files)
+	mypy $(lint_files) --ignore-missing-imports
 	@echo "=== isort ==="
 	isort --quiet --recursive --diff $(lint_files) > .isort.out
 	if [ "$$(wc -l .isort.out)" != "0 .isort.out" ]; then cat .isort.out; exit 1; fi
