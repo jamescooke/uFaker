@@ -1,5 +1,6 @@
 -c base.txt
 -c test.txt
 
+ipython
 pip-tools
 twine
