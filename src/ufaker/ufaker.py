@@ -10,10 +10,35 @@ class uFaker:
         self._caches: Dict[str, set] = {}
         self.faker = Faker()
 
+    def _add_ban(self, gen_name: str, items: list) -> set:
+        """
+        For provided generator, add the items provided to the banned set. If
+        the banned set has not been instantiated, then create it.
+
+        Args:
+            gen_name: Name of faker provider method.
+            items: An iterable of items to be added to the ban list.
+
+        Returns:
+            Banned set after new items have been added.
+
+        Raises:
+            TypeError: When a non-iterable is passed for `items`.
+                TODO: improve the API of this to give help on the error.
+        """
+        new_items = set(items)
+
+        try:
+            self._caches[gen_name] = self._caches[gen_name].union(new_items)
+        except KeyError:
+            self._caches[gen_name] = new_items
+
+        return self._caches[gen_name]
+
     def seed(self, *args, **kwargs):
         return self.faker.seed(*args, **kwargs)
 
-    def boolean(self):
+    def boolean(self, *args, **kwargs):
         attempts = 0
         while True:
             value = self.faker.boolean()
