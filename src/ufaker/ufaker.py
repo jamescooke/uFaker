@@ -39,18 +39,14 @@ class uFaker:
         return self.faker.seed(*args, **kwargs)
 
     def boolean(self, *args, **kwargs):
+        gen_name = "boolean"
+        self._add_ban(gen_name, kwargs.get("ban", set()))
         attempts = 0
         while True:
             value = self.faker.boolean()
-
-            try:
-                used = value in self._caches["boolean"]
-            except KeyError:
-                self._caches["boolean"] = {value}
-                return value
-
+            used = value in self._caches[gen_name]
             if not used:
-                self._caches["boolean"].add(value)
+                self._caches[gen_name].add(value)
                 return value
 
             attempts += 1
