@@ -81,26 +81,27 @@ can use the ``user_name()`` generator and ban the name ``"admin"``::
 The ban list is additive, so calling a generator method multiple times with
 additional values adds them to the ban list.
 
-Say we had a ``dice()`` generator method that generates dice rolls from 1 to 6
-inclusive::
+Let's use Faker's ``pyint()`` generator to return some random single digit
+integers::
 
     >>> from ufaker import uFaker
 
     >>> ufake = uFaker()
 
-    >>> ufake.dice(ban=[1])
-    6
+    >>> ufake.pyint(max_value=6)
+    2
 
-So at this stage both 1 and 6 are banned. Now we call it again adding bans for
-2, 3 and 4. The only unique value that can be found is 5 which is returned::
+So at this stage 2 is banned because it's been generated. Now we call it again
+adding bans for 3, 4 and 5. The only unique value that can be found is 0
+which is returned:: 
 
-    >>> ufake.dice(ban=[2, 3, 4])
-    5
+    >>> ufake.pyint(max_value=6, ban=[3, 4, 5])
+    0
 
-Calling ``dice()`` once more raises an exception because there are no more
-unique values available::
+Calling ``pyint(max_value=6)`` once more raises an exception because there are
+no more unique values available::
 
-    >>> ufake.dice()
+    >>> ufake.pyint(max_value=6)
     Traceback (most recent call last):
     ...
-    GeneratorExhaustedError: dice has run out of unique values. Tried: [1, 6, 2, 3, 4, 5]
+    GeneratorExhaustedError: pyint has run out of unique values. Tried: [2, 3, 4, 5, 0]
