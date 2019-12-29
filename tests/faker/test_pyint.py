@@ -5,6 +5,6 @@ def test():
     fake = Faker()
     fake.seed(4321)
 
-    result = [fake.pyint(max_value=10) for _ in range(5)]
+    result = [fake.pyint(max_value=5) for _ in range(10)]
 
-    assert result == [4, 0, 6, 1, 2]
+    assert result == [2, 0, 3, 0, 1, 5, 2, 0, 5, 0]
